@@ -38,27 +38,92 @@
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
 
+    let fifteenBorn = inventors.filter(inventor => {
+      if(inventor.year >= 1500 && inventor.year <= 1599) return true;
+    })
+
+    console.table(fifteenBorn);
+
+
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+
+    let inventorNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.log(inventorNames);
+
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
 
+    // 1st method using if else
+    // inventors.sort((a,b) => {
+    //   if(a.year < b.year) return 1;
+    //   else return -1;
+    // })
+
+    // console.table(inventors);
+
+    // 2nd method
+    inventors.sort((a,b) => (b.year - a.year));
+
+    console.table(inventors);
+
+
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+      
+    let yearsLived = inventors.reduce((total, inventor) => {
+      return total + (inventor.passed - inventor.year);
+    } , 0);
+
+    console.log(yearsLived);
+
 
     // 5. Sort the inventors by years lived
+    //from the video, person that lived the most will be first. So we have to sort in decending order by years lived. 
+
+    inventors.sort((a,b) => {
+      let aYears = a.passed - a.year;
+      let bYears = b.passed - b.year;
+
+      return (bYears - aYears);
+    })
+
+    console.table(inventors);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+
+    const streetLinks = document.querySelectorAll('.mw-category a'); //using decendent combinator. all the names are wrapped in a tag, an all the a tags are in mw-category div. 
+    const streetLinksArray = Array.from(streetLinks); //converting from nodelist of references to an array of references so that we can use map function
+    let streetNames = streetLinksArray.map(street => street.textContent); //this map function exracts the textContent/innerHTML(street names) from the node references and stores it in a new array streetNames
+    let deStreets = streetNames.filter(street => street.includes("de")); //includes returns true or false
 
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
 
+    //since the last name is first in the people's array, we can just use sort() as it arranges strings alphabetically
+    people.sort();
+    console.log(people);
+
+
+
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    let instances = data.reduce((obj, vehicle) => {
+      if(!(vehicle in obj)) {
+        obj[vehicle] = 0;
+      }
+
+      obj[vehicle]++;
+      return obj;
+    }, {})
+
+    console.log(instances);
+
 
   </script>
 </body>
